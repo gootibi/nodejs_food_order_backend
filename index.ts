@@ -1,23 +1,18 @@
 import express from 'express';
-import { AdminRoute, VandorRoute } from './routes';
-import mongoose from 'mongoose';
-import { MONGO_URL } from './config';
-import path from 'path';
+import App from './services/ExpressApp';
+import dbConnection from './services/Database';
 
-const app = express();
+const StartServer = async () => {
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/images', express.static(path.join(__dirname, 'images')));
+    const app = express();
 
-app.use('/admin', AdminRoute);
-app.use('/vandor', VandorRoute);
+    await dbConnection();
 
-mongoose.connect(MONGO_URL).then(result => {
-    console.log('DB connection established')
-}).catch(err => console.log('error', err));
+    await App(app);
 
-app.listen(8000, () => {
-    console.clear()
-    console.log(`Server listening on the port: 8000`)
-});
+    app.listen(8000, () => {
+        console.log('Server listening on port: 8000')
+    });
+};
+
+StartServer();
