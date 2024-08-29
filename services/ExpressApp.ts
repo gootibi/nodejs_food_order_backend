@@ -1,5 +1,5 @@
 import express, { Application } from 'express';
-import { AdminRoute, ShoppingRoute, VandorRoute } from '../routes';
+import { AdminRoute, CustomerRoute, ShoppingRoute, VandorRoute } from '../routes';
 import path from 'path';
 
 export default async (app: Application) => {
@@ -10,6 +10,7 @@ export default async (app: Application) => {
     
     app.use('/admin', AdminRoute);
     app.use('/vandor', VandorRoute);
+    app.use('/customer', CustomerRoute);
     app.use(ShoppingRoute);
 
 };
